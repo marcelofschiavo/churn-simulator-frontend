@@ -2,27 +2,35 @@ import gradio as gr
 import requests
 import json
 import os
-import google.generativeai as genai # <-- Mantenha o import
+import google.generativeai as genai
+
+# --- 🧠 DEBUG: IMPRIMIR TODOS OS SECRETS DISPONÍVEIS ---
+# Vamos verificar se o HFS está injetando a chave corretamente.
+print("--- INICIANDO APP: Verificando Variáveis de Ambiente ---")
+print("O HFS vê os seguintes Secrets (variáveis de ambiente):")
+# Filtra para mostrar apenas as chaves que nos interessam (ou todas)
+relevant_keys = [key for key in os.environ if "GEMINI" in key or "API_KEY" in key]
+if not relevant_keys:
+    print("Nenhum Secret com 'GEMINI' ou 'API_KEY' encontrado.")
+else:
+    for key in relevant_keys:
+        print(f"Encontrado: {key}")
+print("-----------------------------------------------------")
+# --- FIM DO DEBUG ---
+
 
 # 1. URL da sua API FastAPI (o Backend)
 API_URL = "https://marcelofschiavo-churn-api-v1.hf.space/predict" 
 
-# 🚫 REMOVA a configuração global do Gemini daqui.
-# Vamos configurar o modelo DENTRO da função.
-
 def get_churn_prediction_and_advice(salario, tempo_dias, dias_login, media_logado, chamados, departamento):
-    """
-    Função principal: Chama a API (Nível 3) e depois o LLM (Nível 5).
-    """
     
-    # --- ETAPA 1: CHAMAR A API FASTAPI ---
-    payload = {
-        "salario_mensal": salario, "tempo_empresa_dias": tempo_dias,
-        "dias_desde_ultimo_login": dias_login, "media_tempo_logado_min": media_logado,
-        "total_chamados_suporte": chamados, "departamento": departamento
-    }
-    
+    # ... (O código da ETAPA 1: CHAMAR A API FASTAPI permanece o mesmo) ...
     try:
+        payload = {
+            "salario_mensal": salario, "tempo_empresa_dias": tempo_dias,
+            "dias_desde_ultimo_login": dias_login, "media_tempo_logado_min": media_logado,
+            "total_chamados_suporte": chamados, "departamento": departamento
+        }
         response = requests.post(API_URL, json=payload, timeout=10)
         response.raise_for_status() 
         resultado_api = response.json()
@@ -34,24 +42,16 @@ def get_churn_prediction_and_advice(salario, tempo_dias, dias_login, media_logad
         return f"ERRO CRÍTICO: A API FastAPI (Backend) não respondeu. Detalhes: {e}"
 
     # --- ETAPA 2: CHAMAR O LLM (NÍVEL 5) ---
-    # ⭐⭐⭐ CORREÇÃO: Lemos a chave e configuramos o modelo AQUI DENTRO ⭐⭐⭐
-    
     recomendacoes_llm = ""
-    GEMINI_KEY = os.environ.get("GEMINI_API_KEY") # Lê o Secret do HFS AQUI
+    # 🧠 DEBUG: Usamos a chave exata que o log vai nos mostrar
+    GEMINI_KEY = os.environ.get("GEMINI_API_KEY") 
 
-    if GEMINI_KEY and probabilidade > 0.3: # Só gera se a chave existir E o risco for relevante
+    if GEMINI_KEY and probabilidade > 0.3:
         try:
             genai.configure(api_key=GEMINI_KEY)
             model = genai.GenerativeModel('gemini-1.5-flash')
             
-            prompt = f"""
-            Você é um Consultor Sênior de People Analytics.
-            A probabilidade de churn para o funcionário do departamento '{departamento}' 
-            com salário R${salario} e {dias_login} dias sem logar é de {probabilidade:.2%}.
-            
-            Gere 3 (três) recomendações ACIONÁVEIS e DIRETAS para o RH mitigar este risco.
-            Seja breve e profissional.
-            """
+            prompt = f"..." # (Seu prompt)
             
             response_llm = model.generate_content(prompt)
             recomendacoes_llm = response_llm.text
