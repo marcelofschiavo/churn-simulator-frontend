@@ -50,7 +50,7 @@ def get_churn_prediction_and_advice(salario, tempo_dias, dias_login, media_logad
             genai.configure(api_key=GEMINI_KEY)
             
             # 1. Use o modelo de Chat
-            model = genai.GenerativeModel('gemini-pro-latest') 
+            model = genai.GenerativeModel('gemini-flash-latest') 
             
             # 2. Inicie um CHAT (em vez de 'generate_content')
             chat = model.start_chat(history=[]) # Histórico vazio
