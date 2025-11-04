@@ -49,7 +49,7 @@ def get_churn_prediction_and_advice(salario, tempo_dias, dias_login, media_logad
     if GEMINI_KEY and probabilidade > 0.3:
         try:
             genai.configure(api_key=GEMINI_KEY)
-            model = genai.GenerativeModel('gemini-pro')
+            model = genai.GenerativeModel('gemini-1.0-pro')
             
             prompt = f"..." # (Seu prompt)
             
