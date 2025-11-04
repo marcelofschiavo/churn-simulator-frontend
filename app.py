@@ -2,8 +2,7 @@ import gradio as gr
 import requests
 import json
 import os
-from google import genai 
-from google.genai import types
+import google.generativeai as genai # <--- MUDANÇA 1
 
 # 1. URL da sua API FastAPI (o Backend)
 API_URL = "https://marcelofschiavo-churn-api-v1.hf.space/predict" 
@@ -11,8 +10,8 @@ API_URL = "https://marcelofschiavo-churn-api-v1.hf.space/predict"
 # 2. Configurar o Cliente Gemini (o LLM)
 GEMINI_KEY = os.environ.get("GEMINI_API_KEY") # Lê o Secret do HFS
 if GEMINI_KEY:
-    genai.configure(api_key=GEMINI_KEY)
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    genai.configure(api_key=GEMINI_KEY) # <--- MUDANÇA 2 (Agora funciona)
+    model = genai.GenerativeModel('gemini-1.5-flash') # <--- MUDANÇA 3
 else:
     model = None
     print("AVISO: GEMINI_API_KEY não encontrado. Recomendações da IA estarão desabilitadas.")
