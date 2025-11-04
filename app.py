@@ -41,19 +41,31 @@ def get_churn_prediction_and_advice(salario, tempo_dias, dias_login, media_logad
     except requests.exceptions.RequestException as e:
         return f"ERRO CRÍTICO: A API FastAPI (Backend) não respondeu. Detalhes: {e}"
 
-    # --- ETAPA 2: CHAMAR O LLM (NÍVEL 5) ---
+  # --- ETAPA 2: CHAMAR O LLM (NÍVEL 5) - MÉTODO DE CHAT ---
     recomendacoes_llm = ""
-    # 🧠 DEBUG: Usamos a chave exata que o log vai nos mostrar
     GEMINI_KEY = os.environ.get("GEMINI_API_KEY") 
 
     if GEMINI_KEY and probabilidade > 0.3:
         try:
             genai.configure(api_key=GEMINI_KEY)
-            model = genai.GenerativeModel('gemini-1.0-pro')
             
-            prompt = f"..." # (Seu prompt)
+            # 1. Use o modelo de Chat
+            model = genai.GenerativeModel('gemini-pro-latest') 
             
-            response_llm = model.generate_content(prompt)
+            # 2. Inicie um CHAT (em vez de 'generate_content')
+            chat = model.start_chat(history=[]) # Histórico vazio
+            
+            prompt = f"""
+            Você é um Consultor Sênior de People Analytics.
+            A probabilidade de churn para o funcionário do departamento '{departamento}' 
+            com salário R${salario} e {dias_login} dias sem logar é de {probabilidade:.2%}.
+            
+            Gere 3 (três) recomendações ACIONÁVEIS e DIRETAS para o RH mitigar este risco.
+            Seja breve e profissional.
+            """
+            
+            # 3. Envie a mensagem
+            response_llm = chat.send_message(prompt)
             recomendacoes_llm = response_llm.text
             
         except Exception as e:
