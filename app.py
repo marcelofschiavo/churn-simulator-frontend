@@ -94,7 +94,7 @@ inputs = [
 gr.Interface(
     fn=get_churn_prediction_and_advice,
     inputs=inputs,
-    outputs=gr.Textbox(label="Análise Preditiva e Prescritiva", lines=10),
+    outputs=gr.Markdown(label="Análise Preditiva e Prescritiva"), # <--- COMPONENTE CORRETO
     title="Simulador de Risco de Churn (Nível 5)",
     description="Interface Gradio (Frontend) que consome a API FastAPI (Backend) e gera recomendações com IA (Gemini)."
 ).launch()
