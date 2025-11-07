@@ -32,3 +32,8 @@ Este projeto é desacoplado em três serviços na nuvem:
 3.  **[DASHBOARD (O BI)](https://public.tableau.com/app/profile/marcelo.schiavo/viz/ChurnAPI/Story1)**
     * **Tecnologia:** Tableau Public (ou Looker Studio).
     * **Função:** Lê os dados do Google Sheets *em tempo real* (o log que o Backend escreve), mostrando o diagnóstico histórico e o monitoramento das simulações da API..
+
+4. **[APRESENTAÇÃO](https://gamma.app/docs/Turnover--e4hsixi19dpi66p)**
+    * **Tecnologia:** Gamma AI
+    * **Função:** Apresenta o projeto, detalhando o problema e as soluções adotadas. 
+ 
