@@ -29,12 +29,6 @@ Este projeto é desacoplado em três serviços na nuvem:
     * **Tecnologia:** FastAPI (em um container Docker).
     * **Função:** Carrega o modelo (`.pkl`) treinado, calcula o risco e salva o log da simulação no Google Sheets (via `gspread`).
 
-3.  **[DASHBOARD (O BI)](https://SEU-LINK-DO-TABLEAU-PUBLIC-AQUI)**
+3.  **[DASHBOARD (O BI)](https://public.tableau.com/app/profile/marcelo.schiavo/viz/ChurnAPI/Story1)**
     * **Tecnologia:** Tableau Public (ou Looker Studio).
-    * **Função:** Lê os dados do Google Sheets *em tempo real* (o log que o Backend escreve), mostrando o diagnóstico histórico e o monitoramento das simulações da API.
-
-## 🛠️ Desafio de Engenharia Superado
-
-O desafio deste projeto foi a **incompatibilidade de artefatos (Nível 4)**. O modelo (`.pkl`) treinado localmente (Python 3.13 / NumPy 2.x) era incompatível com o ambiente de produção (Python 3.10 / NumPy 1.x), causando o erro `No module named 'numpy._core'`.
-
-**Solução:** Usei o **Google Colab** como uma "sala limpa" (ambiente 3.10) para **recriar o artefato (`.pkl`) compatível**, garantindo que a "chave" (servidor) e o "cadeado" (modelo) fossem da mesma versão.
+    * **Função:** Lê os dados do Google Sheets *em tempo real* (o log que o Backend escreve), mostrando o diagnóstico histórico e o monitoramento das simulações da API..
