@@ -19,7 +19,7 @@ Esta interface não é apenas uma demo:
 
 ## 🔗 Arquitetura Completa (Os 3 Links do Projeto)
 
-Este projeto é desacoplado em três serviços na nuvem:
+Este projeto é desacoplado em serviços na nuvem:
 
 1.  **[INTERFACE (Esta Demo)](https://huggingface.co/spaces/marcelofschiavo/churn-simulator)**
     * **Tecnologia:** Gradio (SDK do Hugging Face).
@@ -35,5 +35,5 @@ Este projeto é desacoplado em três serviços na nuvem:
 
 4. **[APRESENTAÇÃO](https://gamma.app/docs/Turnover--e4hsixi19dpi66p)**
     * **Tecnologia:** Gamma AI
-    * **Função:** Apresenta o projeto, detalhando o problema e as soluções adotadas. 
+    * **Função:** Apresenta o projeto, detalhando o problema e as soluções adotadas.
  
